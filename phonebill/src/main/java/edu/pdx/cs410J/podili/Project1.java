@@ -1,12 +1,27 @@
 package edu.pdx.cs410J.podili;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 /**
  * The main class for the CS410J Phone Bill Project
  */
 public class Project1 {
 
   public  static  void readMe() {
-    System.out.println("Printing read me");
+    try {
+      InputStream readme = Project1.class.getResourceAsStream("README.txt");
+      BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
+      String line = reader.readLine();
+      while (line!=null) {
+        System.out.println(line);
+        line = reader.readLine();
+      }
+    } catch(Exception e) {
+      System.out.println("README does not exist");
+      System.exit(1);
+    }
     System.exit(0);
   }
 
@@ -15,7 +30,6 @@ public class Project1 {
     PhoneBill bill;
     int printFlag = 0;
     int options = 0;
-
     //PhoneCall call = new PhoneCall(caller, callee, startTime, endTime);  // Refer to one of Dave's classes so that we can be sure it is on the classpath
     if(args.length == 0) {
       System.err.println("Missing command line arguments");
