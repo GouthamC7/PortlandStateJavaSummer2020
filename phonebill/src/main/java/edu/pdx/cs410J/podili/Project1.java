@@ -5,13 +5,63 @@ package edu.pdx.cs410J.podili;
  */
 public class Project1 {
 
+  public  static  void readMe() {
+    System.out.println("Printing read me");
+    System.exit(0);
+  }
+
   public static void main(String[] args) {
+
+    int printFlag = 0;
+    int options = 0;
+
     //PhoneCall call = new PhoneCall(caller, callee, startTime, endTime);  // Refer to one of Dave's classes so that we can be sure it is on the classpath
-    System.err.println("Missing command line arguments");
+    if(args.length == 0) {
+      System.err.println("Missing command line arguments");
+      System.exit(1);
+    } else if (args.length == 1) {
+      if(args[0].equalsIgnoreCase("-README")) {
+        readMe();
+      }
+      System.err.println("Missing command line arguments");
+      System.exit(1);
+    } else if (args.length <7) {
+      if(args[0].equalsIgnoreCase("-README") || args[1].equalsIgnoreCase("-README")) {
+        readMe();
+      }
+      System.err.println("Missing command line arguments");
+      System.exit(1);
+    } else if (args.length >9) {
+      if(args[0].equalsIgnoreCase("-README") || args[1].equalsIgnoreCase("-README")) {
+        readMe();
+      }
+      System.err.println("Too many arguments");
+      System.exit(1);
+    } else {
+      if(args[0].equalsIgnoreCase("-README") || args[1].equalsIgnoreCase("-README")) {
+        readMe();
+      }
+      if(args[0].equalsIgnoreCase("-print") || args[1].equalsIgnoreCase("-print")) {
+        options++;
+        printFlag = 1;
+      }
+      if((args.length-options) != 7) {
+        System.err.println("Too many arguments");
+        System.exit(1);
+      }
+      if(printFlag == 1) {
+        System.out.println("Printing object");
+        System.exit(0);
+      }
+      System.out.println("Success");
+      System.exit(0);
+    }
+
+
     for (String arg : args) {
       System.out.println(arg);
     }
-    System.exit(1);
+
   }
 
 }
