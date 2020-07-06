@@ -11,7 +11,8 @@ public class Project1 {
   }
 
   public static void main(String[] args) {
-
+    PhoneCall call;
+    PhoneBill bill;
     int printFlag = 0;
     int options = 0;
 
@@ -50,16 +51,13 @@ public class Project1 {
         System.exit(1);
       }
       if(printFlag == 1) {
+        call = new PhoneCall(args[options++],args[options++],args[options++]+args[options++],args[options++]+args[options++]);
         System.out.println("Printing object");
         System.exit(0);
       }
+      call = new PhoneCall(args[options++],args[options++],args[options++]+args[options++],args[options++]+args[options++]);
       System.out.println("Success");
       System.exit(0);
-    }
-
-
-    for (String arg : args) {
-      System.out.println(arg);
     }
 
   }

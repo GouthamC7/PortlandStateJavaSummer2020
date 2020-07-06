@@ -44,21 +44,21 @@ public class PhoneCallTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidCalleeNumberThrowsIllegalArgumentException() {
-    PhoneCall call = new PhoneCall("111-222-3333", "222-333-4444", "12:00", "11:00");
+    PhoneCall call = new PhoneCall("111-222-3333", "222-333-444", "12:00", "11:00");
     call.getCallee();
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  /**@Test(expected = UnsupportedOperationException.class)
   public void getStartTimeStringNeedsToBeImplemented() {
     PhoneCall call = initializePhoneCallOnject();
     call.getStartTimeString();
-  }
+  }*/
 
   private PhoneCall initializePhoneCallOnject() {
     return new PhoneCall("111-222-3333", "222-333-4444", "12:00", "11:00");
   }
 
-  @Test
+  /**@Test
   public void initiallyAllPhoneCallsHaveTheSameCallee() {
     PhoneCall call = initializePhoneCallOnject();
     assertThat(call.getCallee(), containsString("222-333-4444"));
@@ -68,6 +68,6 @@ public class PhoneCallTest {
   public void forProject1ItIsOkayIfGetStartTimeReturnsNull() {
     PhoneCall call = initializePhoneCallOnject();
     //assertThat(call.getStartTime(), is(nullValue()));
-  }
+  }*/
   
 }

@@ -20,9 +20,9 @@ public class PhoneCall extends AbstractPhoneCall {
   @Override
   public String getCaller() {
     String callerString = this.caller;
-    callerString.replace("-","");
+    callerString = callerString.replace("-","");
     String regex = "\\d+";
-    if(callerString.length() != 10 && !callerString.matches(regex)) {
+    if(callerString.length() != 10 || !callerString.matches(regex)) {
       throw new IllegalArgumentException("Invalid Caller Number");
     }
     return this.caller;
@@ -31,9 +31,9 @@ public class PhoneCall extends AbstractPhoneCall {
   @Override
   public String getCallee() {
     String calleeString = this.callee;
-    calleeString.replace("-","");
+    calleeString = calleeString.replace("-","");
     String regex = "\\d+";
-    if(calleeString.length() != 10 && !calleeString.matches(regex)) {
+    if(calleeString.length() != 10 || !calleeString.matches(regex)) {
       throw new IllegalArgumentException("Invalid Callee Number");
     }
     return this.callee;
