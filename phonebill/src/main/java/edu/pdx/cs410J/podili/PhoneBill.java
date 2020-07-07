@@ -12,16 +12,14 @@ import java.util.Collection;
 
 public class PhoneBill extends AbstractPhoneBill<PhoneCall> {
 
-    /**
-     * @param customerName stores the customer name.
-     * @param calls stores the information about the calls.
-     */
 
     private String customerName;
     ArrayList<PhoneCall> calls = new ArrayList<PhoneCall>();
 
     /**
      * class constructor for storing the name and information about calls
+     * @param name contains customer name
+     * @param call PhoneCall object
      */
 
     public PhoneBill(String name, PhoneCall call) {

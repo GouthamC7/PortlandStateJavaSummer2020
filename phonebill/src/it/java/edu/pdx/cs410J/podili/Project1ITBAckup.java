@@ -12,7 +12,8 @@ package edu.pdx.cs410J.podili;
 /**
  * Tests the functionality in the {@link Project1} main class.
  */
-public class Project1ITBAckup extends InvokeMainTestCase {
+public class Pro
+        ject1ITBAckup extends InvokeMainTestCase {
 
     /**
      * Invokes the main method of {@link Project1} with the given arguments.

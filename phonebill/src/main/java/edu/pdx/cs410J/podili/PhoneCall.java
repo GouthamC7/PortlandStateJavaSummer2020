@@ -8,12 +8,6 @@ import edu.pdx.cs410J.AbstractPhoneCall;
 
 public class PhoneCall extends AbstractPhoneCall {
 
-  /**
-   * @param caller stores caller number
-   * @param callee stores callee number
-   * @param startTime stores start time of the call
-   * @param endTime stores end time of the call
-   */
 
   private final String caller;
   private final String callee;
@@ -21,11 +15,12 @@ public class PhoneCall extends AbstractPhoneCall {
   private final String endTime;
 
   /**
-   * class constructor
-   * @param caller
-   * @param callee
-   * @param startTime
-   * @param endTime
+   * class constructor create object
+   *
+   * @param caller stores caller number
+   * @param callee stores callee number
+   * @param startTime stores start time of the call
+   * @param endTime stores end time of the call
    */
 
   public PhoneCall(String caller, String callee, String startTime, String endTime) {

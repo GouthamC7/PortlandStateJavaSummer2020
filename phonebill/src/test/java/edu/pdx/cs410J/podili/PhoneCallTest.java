@@ -36,23 +36,20 @@ public class PhoneCallTest {
     assertThat(call.toString(), containsString("11:00"));
   }
 
-  /**@Test(expected = IllegalArgumentException.class)
-  public void invalidCallerNumberThrowsIllegalArgumentException() {
-    PhoneCall call = new PhoneCall("111-222-333", "222-333-4444", "12:00", "11:00");
+  @Test
+  public void getCalleeReturnsCalleeNumber() {
+    PhoneCall call = initializePhoneCallOnject();
     call.getCaller();
+    assertThat(call.getCallee(),equalTo("222-333-4444"));
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void invalidCalleeNumberThrowsIllegalArgumentException() {
-    PhoneCall call = new PhoneCall("111-222-3333", "222-333-444", "12:00", "11:00");
-    call.getCallee();
-  }*/
-
-  /**@Test(expected = UnsupportedOperationException.class)
-  public void getStartTimeStringNeedsToBeImplemented() {
+  @Test
+  public void getCallerReturnsCallerNumber() {
     PhoneCall call = initializePhoneCallOnject();
-    call.getStartTimeString();
-  }*/
+    call.getCaller();
+    assertThat(call.getCaller(),equalTo("111-222-3333"));
+  }
+
 
   private PhoneCall initializePhoneCallOnject() {
     return new PhoneCall("111-222-3333", "222-333-4444", "09/09/2019 12:00", "09/09/2019 11:00");
@@ -62,12 +59,12 @@ public class PhoneCallTest {
   public void initiallyAllPhoneCallsHaveTheSameCallee() {
     PhoneCall call = initializePhoneCallOnject();
     assertThat(call.getCallee(), containsString("222-333-4444"));
-  }
+  }*/
 
   @Test
   public void forProject1ItIsOkayIfGetStartTimeReturnsNull() {
     PhoneCall call = initializePhoneCallOnject();
-    //assertThat(call.getStartTime(), is(nullValue()));
-  }*/
+    assertThat(call.getStartTime(), is(nullValue()));
+  }
   
 }
