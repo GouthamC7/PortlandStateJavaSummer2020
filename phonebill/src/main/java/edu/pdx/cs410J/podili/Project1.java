@@ -84,7 +84,7 @@ public class Project1 {
         System.exit(0);
       }
       options++;
-      call = new PhoneCall(args[options++],args[options++],args[options++]+args[options++],args[options++]+args[options++]);
+      call = new PhoneCall(args[options++],args[options++],args[options++]+" "+args[options++],args[options++]+" "+args[options++]);
       bill = new PhoneBill(args[0], call);
       String checkArguments = bill.getCustomer()+call.getCallee()+call.getCaller()+call.getStartTimeString()+call.getEndTimeString();
       System.exit(0);

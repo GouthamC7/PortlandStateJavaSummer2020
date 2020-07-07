@@ -2,12 +2,12 @@
 
 package edu.pdx.cs410J.podili;
 
-        import edu.pdx.cs410J.InvokeMainTestCase;
-        import org.junit.Test;
+import edu.pdx.cs410J.InvokeMainTestCase;
+import org.junit.Test;
 
-        import static org.hamcrest.CoreMatchers.containsString;
-        import static org.hamcrest.CoreMatchers.equalTo;
-        import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Tests the functionality in the {@link Project1} main class.
@@ -75,7 +75,7 @@ public class Project1ITBAckup extends InvokeMainTestCase {
 
     @Test
     public void validNumberOfArgumentsWithoutREADMEAndPrint() {
-        MainMethodResult result = invokeMain("Goutham","111-222-3333","222-333-4444","09/09/2020"," 13:30","09/09/2020"," 13:40");
+        MainMethodResult result = invokeMain("Goutham","111-222-3333","222-333-4444","09/09/2020","13:30","09/09/2020","13:40");
         assertThat(result.getExitCode(), equalTo(0));
         //assertThat(result.getTextWrittenToStandardError(), containsString("Too many arguments"));
     }
@@ -96,7 +96,7 @@ public class Project1ITBAckup extends InvokeMainTestCase {
 
     @Test
     public void validNumberOfArgumentsWithoutPrintAndWithoutPrint() {
-        MainMethodResult result = invokeMain("Goutham","111-222-3333","222-333-4444","09/09/2020"," 13:30","09/09/2020"," 13:40");
+        MainMethodResult result = invokeMain("Goutham","111-222-3333","222-333-4444","09/09/2020","13:30","09/09/2020","13:40");
         assertThat(result.getExitCode(), equalTo(0));
     }
 

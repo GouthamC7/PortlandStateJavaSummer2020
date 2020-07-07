@@ -75,7 +75,7 @@ public class Project1IT extends InvokeMainTestCase {
 
     @Test
     public void validNumberOfArgumentsWithoutREADMEAndPrint() {
-        MainMethodResult result = invokeMain("Goutham","111-222-3333","222-333-4444","09/09/2020"," 13:30","09/09/2020"," 13:40");
+        MainMethodResult result = invokeMain("Goutham","111-222-3333","222-333-4444","09/09/2020","13:30","09/09/2020","13:40");
         assertThat(result.getExitCode(), equalTo(0));
         //assertThat(result.getTextWrittenToStandardError(), containsString("Too many arguments"));
     }
@@ -96,7 +96,7 @@ public class Project1IT extends InvokeMainTestCase {
 
     @Test
     public void validNumberOfArgumentsWithoutPrintAndWithoutPrint() {
-        MainMethodResult result = invokeMain("Goutham","111-222-3333","222-333-4444","09/09/2020"," 13:30","09/09/2020"," 13:40");
+        MainMethodResult result = invokeMain("Goutham","111-222-3333","222-333-4444","09/09/2020","13:30","09/09/2020","13:40");
         assertThat(result.getExitCode(), equalTo(0));
     }
 

@@ -54,7 +54,7 @@ public class PhoneCallTest {
   private PhoneCall initializePhoneCallOnject() {
     return new PhoneCall("111-222-3333", "222-333-4444", "09/09/2019 12:00", "09/09/2019 11:00");
   }
-  
+
 
   @Test
   public void forProject1ItIsOkayIfGetStartTimeReturnsNull() {
