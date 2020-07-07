@@ -18,8 +18,9 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall> {
 
     @Override
     public String getCustomer() {
+
         if(this.customerName.isEmpty()) {
-            throw new IllegalArgumentException("Name should not be empty");
+            throw new InvalidArgumentException("Name should not be empty");
         }
         return this.customerName;
     }

@@ -66,14 +66,16 @@ public class Project1 {
       }
       if(printFlag == 1) {
         options++;
-        call = new PhoneCall(args[options++],args[options++],args[options++]+args[options++],args[options++]+args[options++]);
+        call = new PhoneCall(args[options++],args[options++],args[options++]+" "+args[options++],args[options++]+" "+args[options++]);
         bill = new PhoneBill(args[1], call);
+        String checkArguments = bill.getCustomer()+call.getCallee()+call.getCaller()+call.getStartTimeString()+call.getEndTimeString();
         System.out.println(call.toString());
         System.exit(0);
       }
       options++;
       call = new PhoneCall(args[options++],args[options++],args[options++]+args[options++],args[options++]+args[options++]);
-      String checkArguments = call.getCallee()+call.getCaller()+call.getStartTimeString()+call.getEndTimeString();
+      bill = new PhoneBill(args[0], call);
+      String checkArguments = bill.getCustomer()+call.getCallee()+call.getCaller()+call.getStartTimeString()+call.getEndTimeString();
       System.exit(0);
     }
 

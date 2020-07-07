@@ -16,13 +16,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class PhoneBillTest {
 
-    @Test(expected = IllegalArgumentException.class)
-    public void emptyNameThrowsIllegalArgumentException() {
-        PhoneCall call = initializePhoneCall();
-        PhoneBill bill = new PhoneBill("", call);
-        bill.getCustomer();
-    }
-
     private PhoneCall initializePhoneCall() {
         return new PhoneCall("111-222-333", "222-333-4444", "12:00", "11:00");
     }
