@@ -65,12 +65,15 @@ public class Project1 {
         System.exit(1);
       }
       if(printFlag == 1) {
+        options++;
         call = new PhoneCall(args[options++],args[options++],args[options++]+args[options++],args[options++]+args[options++]);
-        System.out.println("Printing object");
+        bill = new PhoneBill(args[1], call);
+        System.out.println(call.toString());
         System.exit(0);
       }
+      options++;
       call = new PhoneCall(args[options++],args[options++],args[options++]+args[options++],args[options++]+args[options++]);
-      System.out.println("Success");
+      String checkArguments = call.getCallee()+call.getCaller()+call.getStartTimeString()+call.getEndTimeString();
       System.exit(0);
     }
 

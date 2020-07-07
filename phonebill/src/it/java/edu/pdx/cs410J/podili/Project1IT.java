@@ -82,7 +82,7 @@ public class Project1IT extends InvokeMainTestCase {
     public void validNumberOfArgumentsWithoutREADMEAndWithPrint() {
         MainMethodResult result = invokeMain("-print","Goutham","111-222-3333","222-333-4444","09/09/2020","13:30","09/09/2020","13:40");
         assertThat(result.getExitCode(), equalTo(0));
-        assertThat(result.getTextWrittenToStandardOut(), containsString("Printing object"));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Phone call from 111-222-3333 to 222-333-4444 from 09/09/202013:30 to 09/09/202013:40"));
     }
 
     @Test
@@ -92,5 +92,10 @@ public class Project1IT extends InvokeMainTestCase {
         //assertThat(result.getTextWrittenToStandardOut(), containsString("Printing read me"));
     }
 
+    @Test
+    public void validNumberOfArgumentsWithoutPrintAndWithoutPrint() {
+        MainMethodResult result = invokeMain("Goutham","111-222-3333","222-333-4444","09/09/2020","13:30","09/09/2020","13:40");
+        assertThat(result.getExitCode(), equalTo(0));
+    }
 
 }
