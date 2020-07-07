@@ -9,6 +9,11 @@ import java.io.InputStreamReader;
  */
 public class Project1 {
 
+  /**
+   * prints the content of readme.txt to console and exits.
+   * Throws Exception if file is missing.
+   */
+
   public  static  void readMe() {
     try {
       InputStream readme = Project1.class.getResourceAsStream("README.txt");
@@ -25,6 +30,12 @@ public class Project1 {
     System.exit(0);
   }
 
+  /**
+   * checks for valid number number of arguments and
+   * creates phonebill and phonecall objects for valid inputs
+   * @param args contains options and arguments specified by user.
+   */
+
   public static void main(String[] args) {
     PhoneCall call;
     PhoneBill bill;
@@ -35,28 +46,28 @@ public class Project1 {
       System.err.println("Missing command line arguments");
       System.exit(1);
     } else if (args.length == 1) {
-      if(args[0].equalsIgnoreCase("-README")) {
+      if(args[0].equals("-README")) {
         readMe();
       }
       System.err.println("Missing command line arguments");
       System.exit(1);
     } else if (args.length <7) {
-      if(args[0].equalsIgnoreCase("-README") || args[1].equalsIgnoreCase("-README")) {
+      if(args[0].equals("-README") || args[1].equals("-README")) {
         readMe();
       }
       System.err.println("Missing command line arguments");
       System.exit(1);
     } else if (args.length >9) {
-      if(args[0].equalsIgnoreCase("-README") || args[1].equalsIgnoreCase("-README")) {
+      if(args[0].equals("-README") || args[1].equals("-README")) {
         readMe();
       }
       System.err.println("Too many arguments");
       System.exit(1);
     } else {
-      if(args[0].equalsIgnoreCase("-README") || args[1].equalsIgnoreCase("-README")) {
+      if(args[0].equals("-README") || args[1].equals("-README")) {
         readMe();
       }
-      if(args[0].equalsIgnoreCase("-print") || args[1].equalsIgnoreCase("-print")) {
+      if(args[0].equals("-print") || args[1].equals("-print")) {
         options++;
         printFlag = 1;
       }

@@ -6,15 +6,34 @@ import edu.pdx.cs410J.AbstractPhoneCall;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * class PhoneBill extends AbstractPhoneBill and implements all the methods.
+ */
+
 public class PhoneBill extends AbstractPhoneBill<PhoneCall> {
+
+    /**
+     * @param customerName stores the customer name.
+     * @param calls stores the information about the calls.
+     */
 
     private String customerName;
     ArrayList<PhoneCall> calls = new ArrayList<PhoneCall>();
+
+    /**
+     * class constructor for storing the name and information about calls
+     */
 
     public PhoneBill(String name, PhoneCall call) {
         this.customerName = name;
         addPhoneCall(call);
     }
+
+    /**
+     * This method throws InvalidArgumentException if name is empty,
+     * else returns the customer name.
+     * @return name of the customer
+     */
 
     @Override
     public String getCustomer() {
@@ -25,10 +44,20 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall> {
         return this.customerName;
     }
 
+    /**
+     * adds call information to the PhoneBill object.
+     * @param call object of PhoneCall
+     */
+
     @Override
     public void addPhoneCall(PhoneCall call) {
         calls.add(call);
     }
+
+    /**
+     * Returns the list of calls
+     * @return list of calls
+     */
 
     @Override
     public Collection<PhoneCall> getPhoneCalls() {
