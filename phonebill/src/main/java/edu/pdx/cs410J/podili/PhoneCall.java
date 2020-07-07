@@ -39,6 +39,11 @@ public class PhoneCall extends AbstractPhoneCall {
   @Override
   public String getCaller() {
     String callerString = this.caller;
+    String[] callerStringParts = this.caller.split("-");
+    if(callerStringParts.length != 3 || callerStringParts[0].length() !=3 ||
+            callerStringParts[1].length() !=3 || callerStringParts[2].length() !=4) {
+      throw new InvalidArgumentException("Invalid Caller Number");
+    }
     callerString = callerString.replace("-","");
     String regex = "\\d+";
     if(callerString.length() != 10 || !callerString.matches(regex)) {
@@ -55,6 +60,11 @@ public class PhoneCall extends AbstractPhoneCall {
   @Override
   public String getCallee() {
     String calleeString = this.callee;
+    String[] calleeStringParts = this.callee.split("-");
+    if(calleeStringParts.length != 3 || calleeStringParts[0].length() !=3 ||
+            calleeStringParts[1].length() !=3 || calleeStringParts[2].length() !=4) {
+      throw new InvalidArgumentException("Invalid Callee Number");
+    }
     calleeString = calleeString.replace("-","");
     String regex = "\\d+";
     if(calleeString.length() != 10 || !calleeString.matches(regex)) {
@@ -103,6 +113,10 @@ public class PhoneCall extends AbstractPhoneCall {
     String timeString = startTimeString[1];
     String[] timeStringParts = timeString.split(":");
     if(timeStringParts.length != 2) {
+      throw new InvalidArgumentException("Please enter valid date");
+    }
+    if(dateStringParts[0].length() >2 || dateStringParts[1].length() >2 || dateStringParts[2].length() != 4 ||
+        timeStringParts[0].length() >2 || timeStringParts[1].length() >2) {
       throw new InvalidArgumentException("Please enter valid date");
     }
     String regex = "\\d+";

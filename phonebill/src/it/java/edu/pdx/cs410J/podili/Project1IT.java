@@ -1,3 +1,5 @@
+
+
 package edu.pdx.cs410J.podili;
 
 import edu.pdx.cs410J.InvokeMainTestCase;
@@ -107,42 +109,28 @@ public class Project1IT extends InvokeMainTestCase {
 
     @Test
     public void invalidCallerNumberGivesError() {
-        MainMethodResult result = invokeMain("-print","Goutham","111-222-333","222-333-4444","09/09/2020","13:30","09/09/2020","13:40");
+        MainMethodResult result = invokeMain("-print","Goutham","1111-222-333","222-333-4444","09/09/2020","13:30","09/09/2020","13:40");
         assertThat(result.getExitCode(), equalTo(1));
         assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Caller Number"));
     }
 
     @Test
     public void invalidCalleeNumberGivesError() {
-        MainMethodResult result = invokeMain("-print","Goutham","111-222-3333","222-333-444","09/09/2020","13:30","09/09/2020","13:40");
+        MainMethodResult result = invokeMain("-print","Goutham","111-222-3333","2222-333-444","09/09/2020","13:30","09/09/2020","13:40");
         assertThat(result.getExitCode(), equalTo(1));
         assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Callee Number"));
     }
 
     @Test
-    public void invalidStartDateGivesError() {
+    public void invalidStartTimeGivesError() {
         MainMethodResult result = invokeMain("-print","Goutham","111-222-3333","222-333-4444","09/09/20200"," 13:00","09/09/2020"," 13:40");
         assertThat(result.getExitCode(), equalTo(1));
         assertThat(result.getTextWrittenToStandardError(), containsString("Please enter valid date"));
     }
 
     @Test
-    public void invalidStartTimeGivesError() {
-        MainMethodResult result = invokeMain("-print","Goutham","111-222-3333","222-333-4444","09/09/20200"," 13","09/09/2020"," 13:40");
-        assertThat(result.getExitCode(), equalTo(1));
-        assertThat(result.getTextWrittenToStandardError(), containsString("Please enter valid date"));
-    }
-
-    @Test
     public void invalidEndTimeGivesError() {
-        MainMethodResult result = invokeMain("-print","Goutham","111-222-3333","222-333-4444","09/09/2020"," 13:00","09/09/2020"," 13:");
-        assertThat(result.getExitCode(), equalTo(1));
-        assertThat(result.getTextWrittenToStandardError(), containsString("Please enter valid date"));
-    }
-
-    @Test
-    public void invalidEndDateGivesError() {
-        MainMethodResult result = invokeMain("-print","Goutham","111-222-3333","222-333-4444","09/09/2020"," 13:00","09/09/20202"," 13:00");
+        MainMethodResult result = invokeMain("-print","Goutham","111-222-3333","222-333-4444","09/09/2020"," 13:00","09/09/20202"," 13:40");
         assertThat(result.getExitCode(), equalTo(1));
         assertThat(result.getTextWrittenToStandardError(), containsString("Please enter valid date"));
     }

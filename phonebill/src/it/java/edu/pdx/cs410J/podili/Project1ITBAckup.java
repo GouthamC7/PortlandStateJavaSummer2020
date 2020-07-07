@@ -12,8 +12,7 @@ package edu.pdx.cs410J.podili;
 /**
  * Tests the functionality in the {@link Project1} main class.
  */
-public class Pro
-        ject1ITBAckup extends InvokeMainTestCase {
+public class Project1ITBAckup extends InvokeMainTestCase {
 
     /**
      * Invokes the main method of {@link Project1} with the given arguments.
@@ -110,14 +109,14 @@ public class Pro
 
     @Test
     public void invalidCallerNumberGivesError() {
-        MainMethodResult result = invokeMain("-print","Goutham","111-222-333","222-333-4444","09/09/2020","13:30","09/09/2020","13:40");
+        MainMethodResult result = invokeMain("-print","Goutham","1111-222-333","222-333-4444","09/09/2020","13:30","09/09/2020","13:40");
         assertThat(result.getExitCode(), equalTo(1));
         assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Caller Number"));
     }
 
     @Test
     public void invalidCalleeNumberGivesError() {
-        MainMethodResult result = invokeMain("-print","Goutham","111-222-3333","222-333-444","09/09/2020","13:30","09/09/2020","13:40");
+        MainMethodResult result = invokeMain("-print","Goutham","111-222-3333","2222-333-444","09/09/2020","13:30","09/09/2020","13:40");
         assertThat(result.getExitCode(), equalTo(1));
         assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Callee Number"));
     }
