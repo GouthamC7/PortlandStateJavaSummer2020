@@ -22,12 +22,5 @@ public class TextParserTest {
         assertThat(String.valueOf(parser.validateDate(new String[]{"11/11/2011", "12:12"})),true);
     }
 
-    @Test
-    public void phoneBillFromTextFileContainsCustomerName() throws ParserException, FileNotFoundException {
-        File f = new File("Goutham.txt");
-        FileReader fr=new FileReader(f);
-        TextParser parser = new TextParser(fr, "Goutham");
-        PhoneBill bill = parser.parse();
-        assertThat(bill.getCustomer(), equalTo("Goutham"));
-    }
+
 }
