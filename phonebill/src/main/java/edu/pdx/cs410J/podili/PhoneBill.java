@@ -19,6 +19,14 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall> {
     /**
      * class constructor for storing the name and information about calls
      * @param name contains customer name
+     */
+    public PhoneBill(String name) {
+        this.customerName = name;
+    }
+
+    /**
+     * class constructor for storing the name and information about calls
+     * @param name contains customer name
      * @param call PhoneCall object
      */
 

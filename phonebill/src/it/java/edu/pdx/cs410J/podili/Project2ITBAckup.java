@@ -10,20 +10,20 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * Tests the functionality in the {@link Project1} main class.
+ * Tests the functionality in the {@link Project2} main class.
  */
-public class Project1IT extends InvokeMainTestCase {
+public class Project2ITBAckup extends InvokeMainTestCase {
 
-    /**
-     * Invokes the main method of {@link Project1} with the given arguments.
-     */
     private MainMethodResult invokeMain(String... args) {
-        return invokeMain( Project1.class, args );
+        return invokeMain( Project2.class, args );
     }
 
     /**
-     * Tests that invoking the main method with no arguments issues an error
-     */
+     * Invokes the main method of {@link Project2} with the given arguments.
+
+
+
+
     @Test
     public void testNoCommandLineArguments() {
         MainMethodResult result = invokeMain();
@@ -133,6 +133,6 @@ public class Project1IT extends InvokeMainTestCase {
         MainMethodResult result = invokeMain("-print","Goutham","111-222-3333","222-333-4444","09/09/2020"," 13:00","09/09/20202"," 13:40");
         assertThat(result.getExitCode(), equalTo(1));
         assertThat(result.getTextWrittenToStandardError(), containsString("Please enter valid date"));
-    }
+    }*/
 
 }
