@@ -35,4 +35,19 @@ public class PhoneBillTest {
         assertThat(savedCall.get(0), equalTo(call));
     }
 
+    @Test
+    public void initializingPhoneBillWithName() {
+        PhoneBill bill = new PhoneBill("Goutham");
+        assertThat(bill.getCustomer(), equalTo("Goutham"));
+    }
+
+    @Test
+    public void addingCallAddsItToList() {
+        PhoneBill bill = new PhoneBill("Goutham");
+        PhoneCall call = initializePhoneCall();
+        bill.addPhoneCall(call);
+        ArrayList<PhoneCall> savedCall = (ArrayList<PhoneCall>) bill.getPhoneCalls();
+        assertThat(savedCall.get(0), equalTo(call));
+    }
+
 }
