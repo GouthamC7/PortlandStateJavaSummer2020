@@ -78,16 +78,14 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
                 }
                 validateNumber(ags[1]);
                 validateNumber(ags[2]);
-                //String[] startTimeString = ags[3].split(" ");
                 validateDate(ags[3]);
-                //String[] endTimeString = ags[4].split(" ");
                 validateDate(ags[4]);
-                //System.out.println(line);
                 PhoneCall call = new PhoneCall(ags[1], ags[2], ags[3], ags[4]);
                 tree.add(call);
                 bill.addPhoneCall(call);
                 line = br.readLine();
             }
+            br.close();
         } catch(IOException e) {
             throw new ParserException("Error while parsing the file", e);
         }

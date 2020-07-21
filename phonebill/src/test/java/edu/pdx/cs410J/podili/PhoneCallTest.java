@@ -102,5 +102,16 @@ public class PhoneCallTest {
     assertThat(call1.validateDate("09/09/2019 12:00 AM"), containsString("9/9/19, 12:00 AM"));
   }
 
+  @Test
+  public void getStartReturnsStartTime() {
+    PhoneCall call1 = new PhoneCall("111-222-3333", "222-333-4444", "09/09/2019 12:00 AM", "09/09/2019 11:00 PM");
+    assertThat(call1.getStart(), containsString("09/09/2019 12:00 AM"));
+  }
+
+  @Test
+  public void getEndReturnsStartTime() {
+    PhoneCall call1 = new PhoneCall("111-222-3333", "222-333-4444", "09/09/2019 12:00 AM", "09/09/2019 11:00 PM");
+    assertThat(call1.getEnd(), containsString("09/09/2019 11:00 PM"));
+  }
 
 }
