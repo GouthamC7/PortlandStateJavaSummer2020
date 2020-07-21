@@ -19,7 +19,8 @@ public class TextParserTest {
     @Test
     public void validateDateReturnsTrueForValidDate() {
         TextParser parser = new TextParser("","");
-        assertThat(String.valueOf(parser.validateDate(new String[]{"11/11/2011", "12:12"})),true);
+        assertThat(parser.validateDate("11/11/2011 11:00 PM"), equalTo(true));
+        //assertThat(String.valueOf(parser.validateDate(new String[]{"11/11/2011", "12:12"})),true);
     }
 
 

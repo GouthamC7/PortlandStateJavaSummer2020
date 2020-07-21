@@ -10,20 +10,22 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * Tests the functionality in the {@link Project2} main class.
+ * Tests the functionality in the {@link Project3} main class.
  */
-public class Project2IT extends InvokeMainTestCase {
+public class Project3IT extends InvokeMainTestCase {
 
     /**
-     * Invokes the main method of {@link Project2} with the given arguments.
+     * Invokes the main method of {@link Project3} with the given arguments.
      */
     private MainMethodResult invokeMain(String... args) {
-        return invokeMain( Project2.class, args );
+        return invokeMain( Project3.class, args );
     }
 
     /**
      * Tests that invoking the main method with no arguments issues an error
      */
+
+
     @Test
     public void testNoCommandLineArguments() {
         MainMethodResult result = invokeMain();
@@ -78,23 +80,23 @@ public class Project2IT extends InvokeMainTestCase {
 
     @Test
     public void validArgumentsWithPrintExitsWithStatus0AndPrints() {
-        MainMethodResult result = invokeMain("-print","Goutham","111-222-3333","222-333-4444","09/09/2020","13:00","09/09/2020","13:40");
+        MainMethodResult result = invokeMain("-print","Goutham","111-222-3333","222-333-4444","09/09/2020","1:00","AM","09/09/2020","1:40","AM");
         assertThat(result.getExitCode(), equalTo(0));
-        assertThat(result.getTextWrittenToStandardOut(), containsString("Phone call from 111-222-3333 to 222-333-4444 from 09/09/2020 13:00 to 09/09/2020 13:40"));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Phone call from 111-222-3333 to 222-333-4444 from 9/9/20, 1:00 AM to 9/9/20, 1:40 AM"));
     }
 
 
     @Test
     public void validArgumentsWithOutPrintExitsWithStatus0() {
-        MainMethodResult result = invokeMain("Goutham","111-222-3333","222-333-4444","09/09/2020","13:00","09/09/2020","13:40");
+        MainMethodResult result = invokeMain("-print","Goutham","111-222-3333","222-333-4444","09/09/2020","1:00","AM","09/09/2020","1:40","AM");
         assertThat(result.getExitCode(), equalTo(0));
     }
 
     //present
     @Test
     public void validArgumentsWithOuttextFile() {
-        MainMethodResult result = invokeMain("-print","Goutham","111-222-3333","999-333-4444","09/09/2020","13:00","09/09/2020","13:40");
-        assertThat(result.getTextWrittenToStandardOut(), containsString("Phone call from 111-222-3333 to 999-333-4444 from 09/09/2020 13:00 to 09/09/2020 13:40"));
+        MainMethodResult result = invokeMain("-print","Goutham","111-222-3333","222-333-4444","09/09/2020","1:00","AM","09/09/2020","1:40","AM");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Phone call from 111-222-3333 to 222-333-4444 from 9/9/20, 1:00 AM to 9/9/20, 1:40 AM"));
         assertThat(result.getExitCode(), equalTo(0));
     }
 
@@ -102,30 +104,38 @@ public class Project2IT extends InvokeMainTestCase {
     //previous
     @Test
     public void invalidStartTimeGivesError() {
-        MainMethodResult result = invokeMain("-print","Goutham","111-222-3333","222-333-4444","09/09/20200"," 13:00","09/09/2020"," 13:40");
+        MainMethodResult result = invokeMain("-print","Goutham","111-222-3333","222-333-4444","09/09/2020","13:00","AM","09/09/2020","1:40","AM");
         assertThat(result.getExitCode(), equalTo(1));
         assertThat(result.getTextWrittenToStandardError(), containsString("Please enter valid date"));
     }
 
     @Test
     public void invalidEndTimeGivesError() {
-        MainMethodResult result = invokeMain("-print","Goutham","111-222-3333","222-333-4444","09/09/2020"," 13:00","09/09/20202"," 13:40");
+        MainMethodResult result = invokeMain("-print","Goutham","111-222-3333","222-333-4444","09/09/2020","1:00","AM","09/09/abcd","1:40","AM");
         assertThat(result.getExitCode(), equalTo(1));
         assertThat(result.getTextWrittenToStandardError(), containsString("Please enter valid date"));
     }
     @Test
     public void invalidCallerNumberGivesError() {
-        MainMethodResult result = invokeMain("-print","Goutham","1111-222-333","222-333-4444","09/09/2020","13:30","09/09/2020","13:40");
+        MainMethodResult result = invokeMain("-print","Goutham","111-222-333","222-333-4444","09/09/2020","1:00","AM","09/09/2020","1:40","AM");
         assertThat(result.getExitCode(), equalTo(1));
         assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Caller Number"));
     }
 
     @Test
     public void invalidCalleeNumberGivesError() {
-        MainMethodResult result = invokeMain("-print","Goutham","111-222-3333","2222-333-444","09/09/2020","13:30","09/09/2020","13:40");
+        MainMethodResult result = invokeMain("-print","Goutham","111-222-3333","222-333-444a","09/09/2020","1:00","AM","09/09/2020","1:40","AM");
         assertThat(result.getExitCode(), equalTo(1));
         assertThat(result.getTextWrittenToStandardError(), containsString("Invalid Callee Number"));
     }
+
+    @Test
+    public void prettyOptionWithDashPrintsToConsole() {
+        MainMethodResult result = invokeMain("-pretty","-","Goutham","111-222-3333","222-333-4444","09/09/2020","1:00","AM","09/09/2020","1:40","AM");
+        assertThat(result.getExitCode(), equalTo(0));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Name: Goutham, caller: 111-222-3333, callee: 222-333-4444, Start time: 9/9/20, 1:00 AM, End time: 9/9/20, 1:40 AM, Duration: 40 minutes"));
+    }
+
 
     /*
 

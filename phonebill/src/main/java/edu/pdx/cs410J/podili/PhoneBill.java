@@ -5,6 +5,7 @@ import edu.pdx.cs410J.AbstractPhoneCall;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.TreeSet;
 
 /**
  * class PhoneBill extends AbstractPhoneBill and implements all the methods.
@@ -14,7 +15,7 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall> {
 
 
     private String customerName;
-    ArrayList<PhoneCall> calls = new ArrayList<PhoneCall>();
+    TreeSet<PhoneCall> calls = new TreeSet<>();
 
     /**
      * class constructor for storing the name and information about calls
@@ -33,6 +34,11 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall> {
     public PhoneBill(String name, PhoneCall call) {
         this.customerName = name;
         addPhoneCall(call);
+    }
+
+    public PhoneBill(String name, TreeSet<PhoneCall> calls) {
+        this.customerName = name;
+        this.calls.addAll(calls);
     }
 
     /**

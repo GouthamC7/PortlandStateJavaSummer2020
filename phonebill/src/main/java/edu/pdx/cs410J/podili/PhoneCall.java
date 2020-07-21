@@ -2,11 +2,16 @@ package edu.pdx.cs410J.podili;
 
 import edu.pdx.cs410J.AbstractPhoneCall;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * class PhoneCall extends AbstractPhoneCall
  */
 
-public class PhoneCall extends AbstractPhoneCall {
+public class PhoneCall extends AbstractPhoneCall implements java.lang.Comparable<PhoneCall> {
 
 
   private final String caller;
@@ -29,6 +34,14 @@ public class PhoneCall extends AbstractPhoneCall {
     this.startTime = startTime;
     this.endTime = endTime;
 
+  }
+
+  public String getStart() {
+    return this.startTime;
+  }
+
+  public String getEnd() {
+    return this.endTime;
   }
 
   /**
@@ -80,9 +93,8 @@ public class PhoneCall extends AbstractPhoneCall {
 
   @Override
   public String getStartTimeString() {
-    String[] startTimeString = this.startTime.split(" ");
-    validateDate(startTimeString);
-    return this.startTime;
+    return validateDate(this.startTime);
+
   }
 
   /**
@@ -92,9 +104,31 @@ public class PhoneCall extends AbstractPhoneCall {
 
   @Override
   public String getEndTimeString() {
-    String[] startTimeString = this.endTime.split(" ");
-    validateDate(startTimeString);
-    return this.endTime;
+    String time = validateDate(this.endTime);
+    compareDates(this.startTime, this.endTime);
+    return time;
+  }
+
+  @Override
+  public Date getStartTime() {
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
+    try {
+      Date date = sdf.parse(this.startTime);
+      return date;
+    } catch (ParseException e) {
+      throw new InvalidArgumentException("Please enter valid date");
+    }
+  }
+
+  @Override
+  public Date getEndTime() {
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
+    try {
+      Date date = sdf.parse(this.startTime);
+      return date;
+    } catch (ParseException e) {
+      throw new InvalidArgumentException("Please enter valid date");
+    }
   }
 
   /**
@@ -104,8 +138,21 @@ public class PhoneCall extends AbstractPhoneCall {
    *
    */
 
-  private void validateDate(String[] startTimeString) {
-    String dateString = startTimeString[0];
+  public String validateDate(String startTimeString) {
+    try {
+      SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
+      sdf.setLenient(false);
+      sdf.parse(startTimeString);
+      DateFormat dateFormatter;
+      dateFormatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+      //DateFormat today = new Date();
+      String dateOut = dateFormatter.format(sdf.parse(startTimeString));
+      return dateOut;
+    } catch (Exception e) {
+      // TODO: handle exception
+      throw new InvalidArgumentException("Please enter valid date");
+    }
+    /**String dateString = startTimeString[0];
     String[] dateStringParts = dateString.split("/");
     if(dateStringParts.length != 3) {
       throw new InvalidArgumentException("Please enter valid date");
@@ -125,6 +172,50 @@ public class PhoneCall extends AbstractPhoneCall {
     if (!(dateString.length() > 5 && dateString.length() < 9 && dateString.matches(regex)) ||
             !(timeString.length() > 1 && timeString.length() < 5 && timeString.matches(regex))) {
       throw new InvalidArgumentException("Please enter valid date");
+    }*/
+  }
+
+  public boolean compareDates(String start, String end) {
+    try {
+      SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
+      Date date1 = sdf.parse(start);
+      Date date2 = sdf.parse(end);
+      if (date1.compareTo(date2) > 0) {
+        throw new InvalidArgumentException("Phone call's end time is before start time");
+      }
+      return true;
+    } catch (Exception e) {
+      throw new InvalidArgumentException("Please enter valid date");
+    }
+  }
+
+  @Override
+  public int compareTo(PhoneCall call) {
+    Date date1;
+    Date date2;
+    try {
+      SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
+      date1 = sdf.parse(this.startTime);
+      date2 = call.getStartTime();
+    } catch (Exception e) {
+      throw new InvalidArgumentException("Invalid date");
+    }
+    if (date1.compareTo(date2) > 0) {
+      return 1;
+    } else if (date1.compareTo(date2) < 0) {
+      return -1;
+    } else {
+        String caller1String = this.caller.replace("-","");
+        String caller2String = call.getCaller().replace("-","");
+        long caller1 = Long.parseLong(caller1String);
+        long caller2 = Long.parseLong(caller2String);
+        if(caller2 < caller1) {
+          return 1;
+        } else if (caller2 > caller1) {
+          return -1;
+        } else {
+          return 0;
+        }
     }
   }
 }

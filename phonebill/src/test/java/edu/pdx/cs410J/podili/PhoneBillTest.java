@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.TreeSet;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -17,7 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class PhoneBillTest {
 
     private PhoneCall initializePhoneCall() {
-        return new PhoneCall("111-222-333", "222-333-4444", "12:00", "11:00");
+        return new PhoneCall("111-222-3333", "222-333-4444", "11/11/11 11:11 AM", "11/11/11 11:11 PM");
     }
 
     @Test
@@ -31,8 +32,8 @@ public class PhoneBillTest {
     public void getPhoneCallsReturnsCalls() {
         PhoneCall call = initializePhoneCall();
         PhoneBill bill = new PhoneBill("Goutham", call);
-        ArrayList<PhoneCall> savedCall = (ArrayList<PhoneCall>) bill.getPhoneCalls();
-        assertThat(savedCall.get(0), equalTo(call));
+        TreeSet<PhoneCall> savedCall = (TreeSet<PhoneCall>) bill.getPhoneCalls();
+        assertThat(savedCall.first(), equalTo(call));
     }
 
     @Test
@@ -46,8 +47,8 @@ public class PhoneBillTest {
         PhoneBill bill = new PhoneBill("Goutham");
         PhoneCall call = initializePhoneCall();
         bill.addPhoneCall(call);
-        ArrayList<PhoneCall> savedCall = (ArrayList<PhoneCall>) bill.getPhoneCalls();
-        assertThat(savedCall.get(0), equalTo(call));
+        TreeSet<PhoneCall> savedCall = (TreeSet<PhoneCall>) bill.getPhoneCalls();
+        assertThat(savedCall.first(), equalTo(call));
     }
 
 }

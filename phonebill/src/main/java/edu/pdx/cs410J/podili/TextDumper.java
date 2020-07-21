@@ -7,6 +7,7 @@ import java.io.*;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 public class TextDumper implements PhoneBillDumper<PhoneBill> {
 
@@ -80,15 +81,16 @@ public class TextDumper implements PhoneBillDumper<PhoneBill> {
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(f, true)));
             //String absolutePath = "phonebill"+File.separator+"src"+File.separator+"main"+File.separator+"resources"+File.separator+"edu"+File.separator+"pdx"+File.separator+"cs410J"+File.separator+"podili";
             //PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(absolutePath+File.separator+this.fileName, true)));
-            ArrayList<PhoneCall> call = (ArrayList<PhoneCall>)bill.getPhoneCalls();
+            TreeSet<PhoneCall> call = (TreeSet<PhoneCall>)bill.getPhoneCalls();
             String billString = bill.getCustomer();
             for(PhoneCall call1 :call) {
-                billString = billString + "@" + call1.getCaller() + "@" + call1.getCallee() + "@" + call1.getStartTimeString() + "@" + call1.getEndTimeString()+"\n";
+
+                billString = billString + "@" + call1.getCaller() + "@" + call1.getCallee() + "@" + call1.getStart() + "@" + call1.getEnd()+"\n";
             }
             out.write(billString);
             out.close();
         } catch(Exception e) {
-            System.err.println("Please check the given path ");
+            System.err.println("Error while dumping to the file");
             System.exit(1);
         }
     }

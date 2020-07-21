@@ -7,27 +7,16 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>edu.pdx.cs410J.podili</groupId>
-  <artifactId>phonebill</artifactId>
-  <packaging>jar</packaging>
+  <artifactId>phonebill-web</artifactId>
+
+  <properties>
+    <jetty.http.port>8080</jetty.http.port>
+  </properties>
+
+  <packaging>war</packaging>
   <version>Summer2020</version>
-  <name>CS410J Phone Bill Project</name>
-  <description>A Phone Bill application for CS410J at Portland State University</description>
-  <inceptionYear>2000</inceptionYear>
-  <url>http://www.cs.pdx.edu/~whitlock</url>
-  <developers>
-    <developer>
-      <id>podili</id>
-      <name>Goutham Podili</name>
-      <email>podili@pdx.edu</email>
-      <url>http://www.cs.pdx.edu/~YOU</url>
-      <organization>PSU Department of Computer Science</organization>
-      <organizationUrl>http://www.cs.pdx.edu</organizationUrl>
-      <roles>
-        <role>Student</role>
-      </roles>
-      <timezone>-7</timezone>
-    </developer>
-  </developers>
+  <name>Phone Bill Web/REST Project</name>
+  <url>http://maven.apache.org</url>
   <repositories>
     <repository>
       <id>CS410J</id>
@@ -43,8 +32,31 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-core</artifactId>
+      <version>${hamcrest.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-library</artifactId>
+      <version>${hamcrest.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>${mockito.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>edu.pdx.cs410J</groupId>
       <artifactId>projects</artifactId>
+      <version>Summer2020</version>
+    </dependency>
+    <dependency>
+      <groupId>edu.pdx.cs410J</groupId>
+      <artifactId>examples</artifactId>
       <version>Summer2020</version>
     </dependency>
     <dependency>
@@ -54,25 +66,103 @@
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>4.0.1</version>
+    </dependency>
   </dependencies>
   <build>
+    <finalName>phonebill</finalName>  <!-- Need finalName to make integration tests work -->
     <plugins>
       <plugin>
+        <!-- Need version 2.1.1 for Java 7 -->
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>2.4</version>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.6</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
         <configuration>
-          <attach>true</attach>
+          <httpConnector>
+            <port>${jetty.http.port}</port>
+          </httpConnector>
+          <stopKey>stop-key</stopKey>
+          <stopPort>9999</stopPort>
+          <webApp>
+            <contextPath>/${project.build.finalName}</contextPath>
+          </webApp>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-maven2-plugin</artifactId>
+        <version>1.6.7</version>
+        <executions>
+          <execution>
+            <id>start-container</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>stop-container</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <container>
+            <containerId>jetty9x</containerId>
+            <type>embedded</type>
+            <systemProperties>
+              <org.apache.commons.logging.Log>org.apache.commons.logging.impl.SimpleLog</org.apache.commons.logging.Log>
+            </systemProperties>
+          </container>
+          <configuration>
+            <properties>
+              <cargo.servlet.port>${jetty.http.port}</cargo.servlet.port>
+            </properties>
+          </configuration>
+          <deployables>
+            <deployable>
+              <location>${project.build.directory}/${project.build.finalName}.${project.packaging}</location>
+              <pingURL>http://localhost:${jetty.http.port}/${project.build.finalName}/index.html</pingURL>
+              <pingTimeout>20000</pingTimeout>
+            </deployable>
+          </deployables>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.6</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classifier>client</classifier>
+            </configuration>
+          </execution>
+        </executions>
         <configuration>
           <archive>
             <manifest>
-              <mainClass>edu.pdx.cs410J.podili.Project3</mainClass>
+              <mainClass>edu.pdx.cs410J.podili.Project4</mainClass>
             </manifest>
           </archive>
         </configuration>
@@ -91,12 +181,10 @@
         </executions>
       </plugin>
       <plugin>
+        <!-- In order for the project info plugin report to work with Java 8,
+             you need to declare it in the <build> section, apparently. -->
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
@@ -104,29 +192,6 @@
       </plugin>
     </plugins>
   </build>
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-report-plugin</artifactId>
-        <version>2.21.0</version>
-      </plugin>
-       <plugin>
-         <groupId>org.codehaus.mojo</groupId>
-         <artifactId>jdepend-maven-plugin</artifactId>
-         <version>2.0</version>
-       </plugin>
-       <plugin>
-         <groupId>org.apache.maven.plugins</groupId>
-         <artifactId>maven-checkstyle-plugin</artifactId>
-         <version>3.0.0</version>
-       </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </reporting>
   <profiles>
     <profile>
       <id>grader</id>
@@ -187,5 +252,4 @@
       </build>
     </profile>
   </profiles>
-
 </project>

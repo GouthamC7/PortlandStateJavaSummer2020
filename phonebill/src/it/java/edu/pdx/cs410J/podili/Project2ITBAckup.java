@@ -3,23 +3,20 @@
 package edu.pdx.cs410J.podili;
 
 import edu.pdx.cs410J.InvokeMainTestCase;
-import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * Tests the functionality in the {@link Project2} main class.
+ * Tests the functionality in the {@link Project3} main class.
  */
 public class Project2ITBAckup extends InvokeMainTestCase {
 
     private MainMethodResult invokeMain(String... args) {
-        return invokeMain( Project2.class, args );
+        return invokeMain( Project3.class, args );
     }
 
     /**
-     * Invokes the main method of {@link Project2} with the given arguments.
+     * Invokes the main method of {@link Project3} with the given arguments.
 
 
 

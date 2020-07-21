@@ -6,6 +6,9 @@ import edu.pdx.cs410J.PhoneBillParser;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.TreeSet;
 
 public class TextParser implements PhoneBillParser<PhoneBill> {
 
@@ -47,6 +50,7 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
     @Override
     public PhoneBill parse() throws ParserException {
         PhoneBill bill = new PhoneBill(this.customerName);
+        TreeSet<PhoneCall> tree = new TreeSet<>();
         try {
             /**File f = new File(this.fileName);
             if(!f.exists()) {
@@ -74,17 +78,20 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
                 }
                 validateNumber(ags[1]);
                 validateNumber(ags[2]);
-                String[] startTimeString = ags[3].split(" ");
-                validateDate(startTimeString);
-                String[] endTimeString = ags[4].split(" ");
-                validateDate(endTimeString);
-                line = br.readLine();
+                //String[] startTimeString = ags[3].split(" ");
+                validateDate(ags[3]);
+                //String[] endTimeString = ags[4].split(" ");
+                validateDate(ags[4]);
+                //System.out.println(line);
                 PhoneCall call = new PhoneCall(ags[1], ags[2], ags[3], ags[4]);
+                tree.add(call);
                 bill.addPhoneCall(call);
+                line = br.readLine();
             }
         } catch(IOException e) {
             throw new ParserException("Error while parsing the file", e);
         }
+        //System.out.println("size ----- " + tree.size());
         return bill;
     }
 
@@ -123,32 +130,23 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
     /**
      * checks whether date is valid or not
      *
-     * @param dateTimeString
+     * @param startTimeString
      * @return true if date is valid
      */
 
-    public boolean validateDate(String[] dateTimeString) {
-        String dateString = dateTimeString[0];
-        String[] dateStringParts = dateString.split("/");
-        if(dateStringParts.length != 3) {
-            throw new InvalidArgumentException("The text file is malformatted");
+    public boolean validateDate(String startTimeString) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
+            sdf.setLenient(false);
+            sdf.parse(startTimeString);
+            DateFormat dateFormatter;
+            dateFormatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+            //DateFormat today = new Date();
+            String dateOut = dateFormatter.format(sdf.parse(startTimeString));
+            return true;
+        } catch (Exception e) {
+            // TODO: handle exception
+            throw new InvalidArgumentException("Please enter valid date");
         }
-        String timeString = dateTimeString[1];
-        String[] timeStringParts = timeString.split(":");
-        if(timeStringParts.length != 2) {
-            throw new InvalidArgumentException("The text file is malformatted");
-        }
-        if(dateStringParts[0].length() >2 || dateStringParts[1].length() >2 || dateStringParts[2].length() != 4 ||
-                timeStringParts[0].length() >2 || timeStringParts[1].length() >2) {
-            throw new InvalidArgumentException("The text file is malformatted");
-        }
-        String regex = "\\d+";
-        dateString = dateString.replace("/", "");
-        timeString = timeString.replace(":", "");
-        if (!(dateString.length() > 5 && dateString.length() < 9 && dateString.matches(regex)) ||
-                !(timeString.length() > 1 && timeString.length() < 5 && timeString.matches(regex))) {
-            throw new InvalidArgumentException("The text file is malformatted");
-        }
-        return true;
     }
 }

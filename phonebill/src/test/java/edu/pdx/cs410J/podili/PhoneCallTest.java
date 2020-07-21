@@ -12,6 +12,34 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class PhoneCallTest {
 
+  private PhoneCall initializePhoneCallOnject() {
+    return new PhoneCall("111-222-3333", "222-333-4444", "09/09/2019 12:00 AM", "09/09/2019 11:00 PM");
+  }
+
+  @Test
+  public void compareDatesReturnTrueForValidDates() {
+    PhoneCall call = initializePhoneCallOnject();
+    assertThat(call.compareDates("09/09/2019 12:00 AM", "09/09/2019 11:00 PM"), equalTo(true));
+  }
+
+  @Test
+  public void validDateReturnsDateIfValid() {
+    PhoneCall call = initializePhoneCallOnject();
+    assertThat(call.validateDate("09/09/2019 12:00 AM"), containsString("9/9/19, 12:00 AM"));
+  }
+
+  @Test
+  public void getStartTimeReturnStartTime() {
+    PhoneCall call = initializePhoneCallOnject();
+    assertThat(call.getStartTimeString(), containsString("9/9/19, 12:00 AM"));
+  }
+
+  @Test
+  public void toStringContainsEndTime() {
+    PhoneCall call = initializePhoneCallOnject();
+    assertThat(call.getEndTimeString(), containsString("11:00"));
+  }
+
   @Test
   public void toStringContainsCaller() {
     PhoneCall call = initializePhoneCallOnject();
@@ -24,17 +52,7 @@ public class PhoneCallTest {
     assertThat(call.toString(), containsString("222-333-4444"));
   }
 
-  @Test
-  public void toStringContainsStartTime() {
-    PhoneCall call = initializePhoneCallOnject();
-    assertThat(call.toString(), containsString("12:00"));
-  }
 
-  @Test
-  public void toStringContainsEndTime() {
-    PhoneCall call = initializePhoneCallOnject();
-    assertThat(call.toString(), containsString("11:00"));
-  }
 
   @Test
   public void getCalleeReturnsCalleeNumber() {
@@ -50,16 +68,39 @@ public class PhoneCallTest {
     assertThat(call.getCaller(),equalTo("111-222-3333"));
   }
 
+  @Test
+  public void firstCallStartTimeIsEarlierReturnsMinus1() {
+    PhoneCall call1 = new PhoneCall("111-222-3333", "222-333-4444", "09/09/2019 12:00 AM", "09/09/2019 11:00 PM");
+    PhoneCall call2 = new PhoneCall("111-222-3333", "222-333-4444", "09/09/2020 12:00 AM", "09/09/2019 11:00 PM");
+    assertThat(call1.compareTo(call2),equalTo(-1));
 
-  private PhoneCall initializePhoneCallOnject() {
-    return new PhoneCall("111-222-3333", "222-333-4444", "09/09/2019 12:00", "09/09/2019 11:00");
   }
-
 
   @Test
-  public void forProject1ItIsOkayIfGetStartTimeReturnsNull() {
-    PhoneCall call = initializePhoneCallOnject();
-    assertThat(call.getStartTime(), is(nullValue()));
+  public void SecondCallStartTimeIsEarlierReturns1() {
+    PhoneCall call1 = new PhoneCall("111-222-3333", "222-333-4444", "09/09/2019 12:00 AM", "09/09/2019 11:00 PM");
+    PhoneCall call2 = new PhoneCall("111-222-3333", "222-333-4444", "09/09/2018 12:00 AM", "09/09/2019 11:00 PM");
+    assertThat(call1.compareTo(call2),equalTo(1));
   }
-  
+
+  @Test
+  public void TwoCallsHavingSameStartTimeAndSameNumberReturns0() {
+    PhoneCall call1 = new PhoneCall("111-222-3333", "222-333-4444", "09/09/2019 12:00 AM", "09/09/2019 11:00 PM");
+    PhoneCall call2 = new PhoneCall("111-222-3333", "222-333-4444", "09/09/2019 12:00 AM", "09/09/2019 11:00 PM");
+    assertThat(call1.compareTo(call2),equalTo(0));
+  }
+
+  @Test
+  public void comapreDatesReturnTrueIfStartTimeIsEarlier() {
+    PhoneCall call1 = new PhoneCall("111-222-3333", "222-333-4444", "09/09/2019 12:00 AM", "09/09/2019 11:00 PM");
+    assertThat(call1.compareDates("09/09/2019 12:00 AM", "09/09/2019 11:00 PM"),equalTo(true));
+  }
+
+  @Test
+  public void validateDatesReturnsDateInShortFormat() {
+    PhoneCall call1 = new PhoneCall("111-222-3333", "222-333-4444", "09/09/2019 12:00 AM", "09/09/2019 11:00 PM");
+    assertThat(call1.validateDate("09/09/2019 12:00 AM"), containsString("9/9/19, 12:00 AM"));
+  }
+
+
 }
