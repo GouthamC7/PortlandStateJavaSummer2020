@@ -26,7 +26,7 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall> {
     }
 
     /**
-     * class constructor for storing the name and information about calls
+     * class constructor for storing the name and information about single call
      * @param name contains customer name
      * @param call PhoneCall object
      */
@@ -36,6 +36,11 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall> {
         addPhoneCall(call);
     }
 
+    /**
+     * class constructor for storing the name and information about multiple calls
+     * @param name contains customer name
+     * @param calls contains calls
+     */
     public PhoneBill(String name, TreeSet<PhoneCall> calls) {
         this.customerName = name;
         this.calls.addAll(calls);

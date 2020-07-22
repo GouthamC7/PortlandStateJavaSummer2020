@@ -20,7 +20,7 @@ public class AboutRequireNotNull {
         } catch (NullPointerException ex) {
             s = "caught a NullPointerException";
         }
-        assertEquals(s, Objects.requireNonNull(s));
+        assertEquals(s, "caught a NullPointerException");
     }
 
     @Koan

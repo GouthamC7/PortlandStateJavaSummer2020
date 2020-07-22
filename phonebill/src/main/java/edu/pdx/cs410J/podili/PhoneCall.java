@@ -36,10 +36,18 @@ public class PhoneCall extends AbstractPhoneCall implements java.lang.Comparable
 
   }
 
+  /**
+   * returns start time in original format
+   * @return start time
+   */
   public String getStart() {
     return this.startTime;
   }
 
+  /**
+   * returns end time in original format
+   * @return end time
+   */
   public String getEnd() {
     return this.endTime;
   }
@@ -109,6 +117,10 @@ public class PhoneCall extends AbstractPhoneCall implements java.lang.Comparable
     return time;
   }
 
+  /**
+   *
+   * @return start date object
+   */
   @Override
   public Date getStartTime() {
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
@@ -120,6 +132,10 @@ public class PhoneCall extends AbstractPhoneCall implements java.lang.Comparable
     }
   }
 
+  /**
+   *
+   * @return end date object
+   */
   @Override
   public Date getEndTime() {
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
@@ -152,27 +168,7 @@ public class PhoneCall extends AbstractPhoneCall implements java.lang.Comparable
       // TODO: handle exception
       throw new InvalidArgumentException("Please enter valid date");
     }
-    /**String dateString = startTimeString[0];
-    String[] dateStringParts = dateString.split("/");
-    if(dateStringParts.length != 3) {
-      throw new InvalidArgumentException("Please enter valid date");
-    }
-    String timeString = startTimeString[1];
-    String[] timeStringParts = timeString.split(":");
-    if(timeStringParts.length != 2) {
-      throw new InvalidArgumentException("Please enter valid date");
-    }
-    if(dateStringParts[0].length() >2 || dateStringParts[1].length() >2 || dateStringParts[2].length() != 4 ||
-        timeStringParts[0].length() >2 || timeStringParts[1].length() >2) {
-      throw new InvalidArgumentException("Please enter valid date");
-    }
-    String regex = "\\d+";
-    dateString = dateString.replace("/", "");
-    timeString = timeString.replace(":", "");
-    if (!(dateString.length() > 5 && dateString.length() < 9 && dateString.matches(regex)) ||
-            !(timeString.length() > 1 && timeString.length() < 5 && timeString.matches(regex))) {
-      throw new InvalidArgumentException("Please enter valid date");
-    }*/
+
   }
 
   public boolean compareDates(String start, String end) {
@@ -189,6 +185,11 @@ public class PhoneCall extends AbstractPhoneCall implements java.lang.Comparable
     }
   }
 
+  /**
+   * used to compare the start time between two calls and sort accordingly
+   * @param call contains call info
+   * @return 1,-1 or 0
+   */
   @Override
   public int compareTo(PhoneCall call) {
     Date date1;
