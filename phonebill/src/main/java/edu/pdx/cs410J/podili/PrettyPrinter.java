@@ -80,7 +80,7 @@ public class PrettyPrinter implements PhoneBillDumper<PhoneBill> {
                     date1 = sdf.parse(call1.getEndTimeString());
                     date2 = sdf.parse(call1.getStartTimeString());
                     long result = ((date1.getTime()/60000) - (date2.getTime()/60000));
-                    billString = billString+customer + "@" + call1.getCaller() + "@" + call1.getCallee() + "@" + call1.getStartTimeString() + "@" + call1.getEndTimeString()+ "@"+ result +" minutes"+"\n";
+                    billString = billString+"Name: "+customer + ", Caller: " + call1.getCaller() + ", Callee: " + call1.getCallee() + ", Start time: " + call1.getStartTimeString() + ", End time: " + call1.getEndTimeString()+ ", Duration: "+ result +" minutes"+"\n";
                 }
                 out.write(billString);
                 out.close();
