@@ -21,6 +21,7 @@ public class Project4IT extends InvokeMainTestCase {
     private static final String HOSTNAME = "localhost";
     private static final String PORT = System.getProperty("http.port", "8080");
 
+    /**
     @Test
     public void test0RemoveAllMappings() throws IOException {
       PhoneBillRestClient client = new PhoneBillRestClient(HOSTNAME, Integer.parseInt(PORT));
@@ -70,5 +71,5 @@ public class Project4IT extends InvokeMainTestCase {
         result = invokeMain( Project4.class, HOSTNAME, PORT );
         out = result.getTextWrittenToStandardOut();
         assertThat(out, out, containsString(Messages.formatDictionaryEntry(word, definition)));
-    }
+    } */
 }
