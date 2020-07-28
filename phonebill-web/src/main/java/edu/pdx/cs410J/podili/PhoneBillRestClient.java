@@ -1,11 +1,14 @@
 package edu.pdx.cs410J.podili;
 
 import com.google.common.annotations.VisibleForTesting;
+import edu.pdx.cs410J.ParserException;
 import edu.pdx.cs410J.web.HttpRequestHelper;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.Map;
 
+import static edu.pdx.cs410J.podili.PhoneBillURLParameters.*;
 import static java.net.HttpURLConnection.HTTP_OK;
 
 /**
@@ -32,51 +35,73 @@ public class PhoneBillRestClient extends HttpRequestHelper
     }
 
     /**
-     * Returns all dictionary entries from the server
+     * Returns the phone bill for the given customer
      */
-    public Map<String, String> getAllDictionaryEntries() throws IOException {
-      Response response = get(this.url, Map.of());
-      return Messages.parseDictionary(response.getContent());
+    public PhoneBill getPhoneBill(String customer) throws IOException, ParserException {
+        //System.out.println("hitting url");
+        Response response = get(this.url, Map.of(CUSTOMER_PARAMETER, customer));
+        //System.out.println("got response may be error");
+        throwExceptionIfNotOkayHttpStatus(response);
+        //System.out.println("perfect");
+        String content = response.getContent();
+        //System.out.println(content);
+
+        PhoneBillTextParser parser = new PhoneBillTextParser(new StringReader(content));
+        return parser.parse();
     }
 
-    /**
-     * Returns the definition for the given word
-     */
-    public String getDefinition(String word) throws IOException {
-      Response response = get(this.url, Map.of("word", word));
-      throwExceptionIfNotOkayHttpStatus(response);
-      String content = response.getContent();
-      return Messages.parseDictionaryEntry(content).getValue();
+    public PhoneBill getPhoneBillBetweenTime(String customer, String startTime, String endTime) throws IOException, ParserException {
+        //System.out.println("hitting url");
+        Response response = get(this.url, Map.of(CUSTOMER_PARAMETER, customer, START_DATE,startTime,END_DATE, endTime));
+        //System.out.println("got response may be error");
+        throwExceptionIfNotOkayHttpStatus(response);
+        //System.out.println("perfect");
+        String content = response.getContent();
+        //System.out.println(content);
+        //System.out.println(content.isEmpty());
+        //System.out.println(content == null);
+        if(content.isEmpty()) {
+            return null;
+        }
+        PhoneBillTextParser parser = new PhoneBillTextParser(new StringReader(content));
+        return parser.parse();
     }
 
-    public void addDictionaryEntry(String word, String definition) throws IOException {
-      Response response = postToMyURL(Map.of("word", word, "definition", definition));
-      throwExceptionIfNotOkayHttpStatus(response);
+    public void addPhoneCall(String customer, String caller, String callee, String startTime, String endTime) throws IOException {
+        Response response = postToMyURL(Map.of(CUSTOMER_PARAMETER, customer, CALLER_NUMBER_PARAMETER, caller, CALLEE_NUMBER_PARAMETER, callee, START_DATE, startTime, END_DATE, endTime));
+        throwExceptionIfNotOkayHttpStatus(response);
     }
 
     @VisibleForTesting
     Response postToMyURL(Map<String, String> dictionaryEntries) throws IOException {
-      return post(this.url, dictionaryEntries);
+        return post(this.url, dictionaryEntries);
     }
 
-    public void removeAllDictionaryEntries() throws IOException {
-      Response response = delete(this.url, Map.of());
-      throwExceptionIfNotOkayHttpStatus(response);
+    public void removeAllPhoneBills() throws IOException {
+        Response response = delete(this.url, Map.of());
+        throwExceptionIfNotOkayHttpStatus(response);
     }
 
     private Response throwExceptionIfNotOkayHttpStatus(Response response) {
-      int code = response.getCode();
-      if (code != HTTP_OK) {
-        throw new PhoneBillRestException(code);
-      }
-      return response;
+        int code = response.getCode();
+        if (code != HTTP_OK) {
+            throw new PhoneBillRestException(code);
+        }
+        return response;
     }
 
     @VisibleForTesting
     class PhoneBillRestException extends RuntimeException {
-      PhoneBillRestException(int httpStatusCode) {
-        super("Got an HTTP Status Code of " + httpStatusCode);
-      }
+        private final int httpStatusCode;
+
+        PhoneBillRestException(int httpStatusCode) {
+            super("Got an HTTP Status Code of " + httpStatusCode);
+            this.httpStatusCode = httpStatusCode;
+        }
+
+        public int getHttpStatusCode() {
+            return this.httpStatusCode;
+        }
     }
 
 }

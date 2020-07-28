@@ -11,6 +11,8 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import static edu.pdx.cs410J.podili.PhoneBillURLParameters.*;
+
 /**
  * This servlet ultimately provides a REST API for working with an
  * <code>PhoneBill</code>.  However, in its current state, it is an example
@@ -19,10 +21,7 @@ import java.util.Map;
  */
 public class PhoneBillServlet extends HttpServlet
 {
-    static final String WORD_PARAMETER = "word";
-    static final String DEFINITION_PARAMETER = "definition";
-
-    private final Map<String, String> dictionary = new HashMap<>();
+    private final Map<String, PhoneBill> phoneBills = new HashMap<>();
 
     /**
      * Handles an HTTP GET request from a client by writing the definition of the
@@ -35,12 +34,25 @@ public class PhoneBillServlet extends HttpServlet
     {
         response.setContentType( "text/plain" );
 
-        String word = getParameter( WORD_PARAMETER, request );
-        if (word != null) {
-            writeDefinition(word, response);
-
+        String customer = getParameter(CUSTOMER_PARAMETER, request );
+        String startDate = getParameter(START_DATE, request );
+        String endDate = getParameter(END_DATE, request );
+        if (customer == null) {
+            missingRequiredParameter(response, CUSTOMER_PARAMETER);
+            return;
+        }
+        PhoneBill bill = getPhoneBill(customer);
+        if (bill == null) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, Messages.noPhoneBillForCustomer(customer));
         } else {
-            writeAllDictionaryEntries(response);
+            PhoneBillTextDumper dumper;
+            if(startDate == null) {
+                dumper = new PhoneBillTextDumper(response.getWriter());
+            } else {
+                dumper = new PhoneBillTextDumper(response.getWriter(), startDate, endDate);
+            }
+            dumper.dump(bill);
+            response.setStatus(HttpServletResponse.SC_OK);
         }
     }
 
@@ -54,24 +66,28 @@ public class PhoneBillServlet extends HttpServlet
     {
         response.setContentType( "text/plain" );
 
-        String word = getParameter(WORD_PARAMETER, request );
-        if (word == null) {
-            missingRequiredParameter(response, WORD_PARAMETER);
+        String customer = getParameter(CUSTOMER_PARAMETER, request );
+        if (customer == null) {
+            missingRequiredParameter(response, CUSTOMER_PARAMETER);
             return;
         }
 
-        String definition = getParameter(DEFINITION_PARAMETER, request );
-        if ( definition == null) {
-            missingRequiredParameter( response, DEFINITION_PARAMETER );
+        String caller = getParameter(CALLER_NUMBER_PARAMETER, request );
+        if ( caller == null) {
+            missingRequiredParameter( response, CALLER_NUMBER_PARAMETER);
             return;
         }
+        String callee = getParameter(CALLEE_NUMBER_PARAMETER, request);
+        String startTime = getParameter(START_DATE, request);
+        String endTime = getParameter(END_DATE, request);
 
-        this.dictionary.put(word, definition);
-
-        PrintWriter pw = response.getWriter();
-        pw.println(Messages.definedWordAs(word, definition));
-        pw.flush();
-
+        PhoneBill bill = new PhoneBill(customer);
+        bill.addPhoneCall(new PhoneCall(caller, callee, startTime, endTime));
+        if(!this.phoneBills.containsKey(customer)) {
+            this.phoneBills.put(customer, bill);
+        } else {
+            this.phoneBills.get(customer).addPhoneCall(new PhoneCall(caller, callee, startTime, endTime));
+        }
         response.setStatus( HttpServletResponse.SC_OK);
     }
 
@@ -80,11 +96,11 @@ public class PhoneBillServlet extends HttpServlet
      * behavior is exposed for testing purposes only.  It's probably not
      * something that you'd want a real application to expose.
      */
-    @Override
+    /**@Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/plain");
 
-        this.dictionary.clear();
+        //this.dictionary.clear();
 
         PrintWriter pw = response.getWriter();
         pw.println(Messages.allDictionaryEntriesDeleted());
@@ -92,7 +108,7 @@ public class PhoneBillServlet extends HttpServlet
 
         response.setStatus(HttpServletResponse.SC_OK);
 
-    }
+    }*/
 
     /**
      * Writes an error message about a missing parameter to the HTTP response.
@@ -112,8 +128,8 @@ public class PhoneBillServlet extends HttpServlet
      * The text of the message is formatted with
      * {@link Messages#formatDictionaryEntry(String, String)}
      */
-    private void writeDefinition(String word, HttpServletResponse response) throws IOException {
-        String definition = this.dictionary.get(word);
+    /**private void writeDefinition(String word, HttpServletResponse response) throws IOException {
+        String definition = "";  //this.dictionary.get(word);
 
         if (definition == null) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -126,7 +142,7 @@ public class PhoneBillServlet extends HttpServlet
 
             response.setStatus(HttpServletResponse.SC_OK);
         }
-    }
+    }*/
 
     /**
      * Writes all of the dictionary entries to the HTTP response.
@@ -134,15 +150,15 @@ public class PhoneBillServlet extends HttpServlet
      * The text of the message is formatted with
      * {@link Messages#formatDictionaryEntry(String, String)}
      */
-    private void writeAllDictionaryEntries(HttpServletResponse response ) throws IOException
+    /**private void writeAllDictionaryEntries(HttpServletResponse response ) throws IOException
     {
         PrintWriter pw = response.getWriter();
-        Messages.formatDictionaryEntries(pw, dictionary);
+        //Messages.formatDictionaryEntries(pw, dictionary);
 
         pw.flush();
 
         response.setStatus( HttpServletResponse.SC_OK );
-    }
+    } */
 
     /**
      * Returns the value of the HTTP request parameter with the given name.
@@ -160,9 +176,15 @@ public class PhoneBillServlet extends HttpServlet
       }
     }
 
+
     @VisibleForTesting
-    String getDefinition(String word) {
-        return this.dictionary.get(word);
+    PhoneBill getPhoneBill(String customer) {
+        return this.phoneBills.get(customer);
+    }
+
+    @VisibleForTesting
+    void addPhoneBill(PhoneBill bill) {
+        this.phoneBills.put(bill.getCustomer(), bill);
     }
 
 }

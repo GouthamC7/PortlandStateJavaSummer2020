@@ -21,6 +21,29 @@ public class Project4IT extends InvokeMainTestCase {
     private static final String HOSTNAME = "localhost";
     private static final String PORT = System.getProperty("http.port", "8080");
 
+    @Test
+    public void test1NoCommandLineArguments() {
+        MainMethodResult result = invokeMain( Project4.class );
+        assertThat(result.getExitCode(), equalTo(1));
+        assertThat(result.getTextWrittenToStandardError(), containsString(Project4.MISSING_ARGS));
+    }
+
+    @Test
+    public void test2ReadmeOptionPrintsToOutput() {
+        MainMethodResult result = invokeMain( Project4.class, "-README" );
+        assertThat(result.getExitCode(), equalTo(0));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Goutham"));
+    }
+
+    @Test
+    public void test2EmptyServer() {
+        MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT );
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(1));
+        String out = result.getTextWrittenToStandardError();
+        assertThat(out, out, containsString("Missing"));
+    }
+
+
     /**
     @Test
     public void test0RemoveAllMappings() throws IOException {
@@ -71,5 +94,48 @@ public class Project4IT extends InvokeMainTestCase {
         result = invokeMain( Project4.class, HOSTNAME, PORT );
         out = result.getTextWrittenToStandardOut();
         assertThat(out, out, containsString(Messages.formatDictionaryEntry(word, definition)));
+    } */
+    /**
+    @Test
+    public void test0RemoveAllMappings() throws IOException {
+        PhoneBillRestClient client = new PhoneBillRestClient(HOSTNAME, Integer.parseInt(PORT));
+        client.removeAllPhoneBills();
+    }
+
+    @Test
+    public void test1NoCommandLineArguments() {
+        MainMethodResult result = invokeMain( Project4.class );
+        //assertThat(result.getExitCode(), equalTo(1));
+        //assertThat(result.getTextWrittenToStandardError(), containsString(Project4.MISSING_ARGS));
+    }
+
+    @Test
+    public void test3UnknownPhoneBillIssuesUnknownPhoneBillError() throws Throwable {
+        String customer = "Customer";
+        MainMethodResult result = invokeMain(Project4.class, HOSTNAME, PORT, customer);
+        //assertThat(result.getTextWrittenToStandardError(), containsString("No phone bill for customer " + customer));
+        //assertThat(result.getExitCode(), equalTo(1));
+    }
+
+    @Test
+    public void test4AddPhoneCall() {
+        String customer = "Customer";
+        String caller = "234-567-8901";
+
+        MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT, customer, caller );
+        //assertThat(result.getTextWrittenToStandardOut(), equalTo(""));
+        assertThat(result.getExitCode(), equalTo(0));
+    }
+
+    @Test
+    public void test5PhoneBillIsPrettyPrinted() {
+        String customer = "Customer";
+        String caller = "234-567-8901";
+
+        MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT, customer );
+        assertThat(result.getExitCode(), equalTo(0));
+        String pretty = result.getTextWrittenToStandardOut();
+        //assertThat(pretty, containsString(customer));
+        //assertThat(pretty, containsString("  " + caller));
     } */
 }
