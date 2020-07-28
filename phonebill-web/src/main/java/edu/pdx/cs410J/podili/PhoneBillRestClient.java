@@ -50,6 +50,9 @@ public class PhoneBillRestClient extends HttpRequestHelper
         return parser.parse();
     }
 
+    /**
+     * Returns the phone bill for the given customer between start and end date
+     */
     public PhoneBill getPhoneBillBetweenTime(String customer, String startTime, String endTime) throws IOException, ParserException {
         //System.out.println("hitting url");
         Response response = get(this.url, Map.of(CUSTOMER_PARAMETER, customer, START_DATE,startTime,END_DATE, endTime));
@@ -67,6 +70,9 @@ public class PhoneBillRestClient extends HttpRequestHelper
         return parser.parse();
     }
 
+    /**
+     *adds the phonebill
+     */
     public void addPhoneCall(String customer, String caller, String callee, String startTime, String endTime) throws IOException {
         Response response = postToMyURL(Map.of(CUSTOMER_PARAMETER, customer, CALLER_NUMBER_PARAMETER, caller, CALLEE_NUMBER_PARAMETER, callee, START_DATE, startTime, END_DATE, endTime));
         throwExceptionIfNotOkayHttpStatus(response);
@@ -77,11 +83,19 @@ public class PhoneBillRestClient extends HttpRequestHelper
         return post(this.url, dictionaryEntries);
     }
 
+
+    /**
+     * Removes all phone bills
+     */
     public void removeAllPhoneBills() throws IOException {
         Response response = delete(this.url, Map.of());
         throwExceptionIfNotOkayHttpStatus(response);
     }
 
+
+    /**
+     * throws the exception and returns response
+     */
     private Response throwExceptionIfNotOkayHttpStatus(Response response) {
         int code = response.getCode();
         if (code != HTTP_OK) {

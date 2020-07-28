@@ -12,16 +12,31 @@ public class PhoneBillTextDumper implements PhoneBillDumper<PhoneBill> {
     public String startTime = "";
     public String endTime = "";
 
+    /**
+     * class constructor
+     * @param writer writer object
+     */
     PhoneBillTextDumper(PrintWriter writer) {
         this.writer = writer;
 
     }
 
+    /**
+     * class constructor
+     * @param writer writer object
+     * @param startTime contains start time
+     * @param endTime contains end time
+     */
     PhoneBillTextDumper(PrintWriter writer, String startTime, String endTime) {
         this.writer = writer;
         this.startTime = startTime;
         this.endTime = endTime;
     }
+
+    /**
+     * dumps the phone bill
+     * @param bill contains phonebill
+     */
 
     @Override
     public void dump(PhoneBill bill) throws IOException {

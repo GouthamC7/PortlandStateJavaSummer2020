@@ -10,10 +10,18 @@ import java.io.Reader;
 public class PhoneBillTextParser implements PhoneBillParser<PhoneBill> {
     private final Reader reader;
 
+    /**
+     * class constructor
+     * @param reader reader object
+     */
     public PhoneBillTextParser(Reader reader) {
         this.reader = reader;
     }
 
+    /**
+     * parses the content and returns the phonebill
+     * @return bill
+     */
     @Override
     public PhoneBill parse() throws ParserException {
         BufferedReader br = new BufferedReader(this.reader);

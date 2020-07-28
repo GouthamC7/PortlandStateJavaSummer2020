@@ -16,6 +16,10 @@ import java.util.Map;
  */
 public class Project4 {
 
+    /**
+     * checks whether the number is valid or not
+     * @param number conatins mobile number
+     */
     public static boolean validNumber(String number) {
         String callerString = number;
         String[] callerStringParts = number.split("-");
@@ -31,6 +35,10 @@ public class Project4 {
         return true;
     }
 
+    /**
+     * checks whether date is valid or not
+     * @param date contains date
+     */
     public static boolean checkDate(String date) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
@@ -42,13 +50,16 @@ public class Project4 {
         }
     }
 
+    /**
+     * checks whether start time is before end time
+     */
     public static boolean compareDates(String start, String end) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
             Date date1 = sdf.parse(start);
             Date date2 = sdf.parse(end);
             if (date1.compareTo(date2) > 0) {
-                throw new InvalidArgumentException("Phone call's end time is before start time");
+                throw new InvalidArgumentException("End time is before start time");
             }
             return true;
         } catch (Exception e) {
@@ -56,6 +67,9 @@ public class Project4 {
         }
     }
 
+    /**
+     * prints the readme to the console
+     */
     public static void readMe() {
         PrintStream err = System.out;
         err.println("Name of the Assignment: Project 4");
@@ -283,19 +297,6 @@ public class Project4 {
     {
         PrintStream err = System.err;
         err.println("** " + message);
-        err.println();
-        err.println("Name of the Assignment: Project 4");
-        err.println("  host         Host of web server");
-        err.println("  port         Port of web server");
-        err.println("  customer         Word in dictionary");
-        err.println("  definition   Definition of word");
-        err.println();
-        err.println("This simple program posts words and their definitions");
-        err.println("to the server.");
-        err.println("If no definition is specified, then the word's definition");
-        err.println("is printed.");
-        err.println("If no word is specified, all dictionary entries are printed");
-        err.println();
 
         System.exit(1);
     }
