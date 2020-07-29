@@ -1,5 +1,6 @@
 package edu.pdx.cs410J.podili;
 
+/**
 import edu.pdx.cs410J.InvokeMainTestCase;
 import edu.pdx.cs410J.UncaughtExceptionInMain;
 import edu.pdx.cs410J.podili.PhoneBillRestClient.PhoneBillRestException;
@@ -11,11 +12,12 @@ import java.io.IOException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.equalTo; */
 
 /**
  * Tests the {@link Project4} class by invoking its main method with various arguments
  */
+/**
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class Project4IT extends InvokeMainTestCase {
     private static final String HOSTNAME = "localhost";
@@ -41,7 +43,7 @@ public class Project4IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(1));
         String out = result.getTextWrittenToStandardError();
         assertThat(out, out, containsString("Missing"));
-    }
+    } */
 
 
     /**
@@ -138,4 +140,4 @@ public class Project4IT extends InvokeMainTestCase {
         //assertThat(pretty, containsString(customer));
         //assertThat(pretty, containsString("  " + caller));
     } */
-}
+//}
