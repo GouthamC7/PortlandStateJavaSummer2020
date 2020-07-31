@@ -1,6 +1,7 @@
 package edu.pdx.cs410J.podili;
 
 import edu.pdx.cs410J.InvokeMainTestCase;
+import org.hamcrest.CoreMatchers;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -91,6 +92,30 @@ public class Project4IT extends InvokeMainTestCase {
     public void readMEReadsAndExitsWith0() {
         MainMethodResult result = invokeMain( Project4.class,"-README");
         assertThat(result.getExitCode(), equalTo(0));
+    }
+
+    @Test
+    public void invalidCallerNumberGivesError() {
+        MainMethodResult result = invokeMain( Project4.class, "-host",HOSTNAME,"-port", PORT,"xyz","11-222-3333","222-333-4444","11/11/2011","11:00","AM",
+                "11/11/2011","11:30","AM");
+        assertThat(result.getExitCode(), CoreMatchers.equalTo(1));
+        assertThat(result.getTextWrittenToStandardError(), CoreMatchers.containsString("Invalid mobile Number"));
+    }
+
+    @Test
+    public void invalidCalleeNumberGivesError() {
+        MainMethodResult result = invokeMain( Project4.class, "-host",HOSTNAME,"-port", PORT,"xyz","111-222-3333","22a-333-4444","11/11/2011","11:00","AM",
+                "11/11/2011","11:30","AM");
+        assertThat(result.getExitCode(), CoreMatchers.equalTo(1));
+        assertThat(result.getTextWrittenToStandardError(), CoreMatchers.containsString("Invalid mobile Number"));
+    }
+
+    @Test
+    public void invalidStartTimeGivesError() {
+        MainMethodResult result = invokeMain( Project4.class, "-host",HOSTNAME,"-port", PORT,"xyz","111-222-3333","222-333-4444","11/11/2011","11:00","AM",
+                "11/11/2011","11:30","ZM");
+        assertThat(result.getExitCode(), CoreMatchers.equalTo(1));
+        assertThat(result.getTextWrittenToStandardError(), CoreMatchers.containsString("Please enter valid date"));
     }
 
 

@@ -25,7 +25,7 @@ public class Project4 {
         String[] callerStringParts = number.split("-");
         if(callerStringParts.length != 3 || callerStringParts[0].length() !=3 ||
                 callerStringParts[1].length() !=3 || callerStringParts[2].length() !=4) {
-            throw new InvalidArgumentException("Invalid Caller Number");
+            throw new InvalidArgumentException("Invalid mobile Number");
         }
         callerString = callerString.replace("-","");
         String regex = "\\d+";
