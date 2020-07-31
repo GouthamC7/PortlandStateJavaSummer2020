@@ -38,13 +38,9 @@ public class PhoneBillRestClient extends HttpRequestHelper
      * Returns the phone bill for the given customer
      */
     public PhoneBill getPhoneBill(String customer) throws IOException, ParserException {
-        //System.out.println("hitting url");
         Response response = get(this.url, Map.of(CUSTOMER_PARAMETER, customer));
-        //System.out.println("got response may be error");
         throwExceptionIfNotOkayHttpStatus(response);
-        //System.out.println("perfect");
         String content = response.getContent();
-        //System.out.println(content);
 
         PhoneBillTextParser parser = new PhoneBillTextParser(new StringReader(content));
         return parser.parse();
@@ -54,15 +50,9 @@ public class PhoneBillRestClient extends HttpRequestHelper
      * Returns the phone bill for the given customer between start and end date
      */
     public PhoneBill getPhoneBillBetweenTime(String customer, String startTime, String endTime) throws IOException, ParserException {
-        //System.out.println("hitting url");
         Response response = get(this.url, Map.of(CUSTOMER_PARAMETER, customer, START_DATE,startTime,END_DATE, endTime));
-        //System.out.println("got response may be error");
         throwExceptionIfNotOkayHttpStatus(response);
-        //System.out.println("perfect");
         String content = response.getContent();
-        //System.out.println(content);
-        //System.out.println(content.isEmpty());
-        //System.out.println(content == null);
         if(content.isEmpty()) {
             return null;
         }

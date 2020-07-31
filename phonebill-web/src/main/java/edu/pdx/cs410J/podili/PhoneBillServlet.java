@@ -96,19 +96,19 @@ public class PhoneBillServlet extends HttpServlet
      * behavior is exposed for testing purposes only.  It's probably not
      * something that you'd want a real application to expose.
      */
-    /**@Override
+    @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/plain");
 
         //this.dictionary.clear();
-
+        this.phoneBills.clear();
         PrintWriter pw = response.getWriter();
-        pw.println(Messages.allDictionaryEntriesDeleted());
+        pw.println("Deleted all the bills");
         pw.flush();
 
         response.setStatus(HttpServletResponse.SC_OK);
 
-    }*/
+    }
 
     /**
      * Writes an error message about a missing parameter to the HTTP response.

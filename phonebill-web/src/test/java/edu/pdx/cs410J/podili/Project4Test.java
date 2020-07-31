@@ -40,4 +40,5 @@ public class Project4Test {
     public void compareDatesReturnTrueForValidDates() {
         assertThat(Project4.compareDates("09/09/2018 12:00 AM", "09/09/2019 11:00 PM"), equalTo(true));
     }
+
 }

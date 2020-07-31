@@ -62,7 +62,7 @@ public class PhoneBillRestClientIT {
     assertThat(response.getCode(), equalTo(HttpURLConnection.HTTP_PRECON_FAILED));
   } */
 
-  /**@Test
+  @Test
   public void test0RemoveAllPhoneBills() throws IOException {
     PhoneBillRestClient client = newPhoneBillRestClient();
     client.removeAllPhoneBills();
@@ -92,10 +92,10 @@ public class PhoneBillRestClientIT {
 
 
     PhoneBill phoneBill = client.getPhoneBill(customer);
-    //assertThat(phoneBill.getCustomer(), equalTo(customer));
+    assertThat(phoneBill.getCustomer(), equalTo(customer));
 
     //PhoneCall phoneCall = phoneBill.getPhoneCalls().iterator().next();
     //assertThat(phoneCall.getCaller(), equalTo(caller));
-  } */
-
+  }
+  
 }

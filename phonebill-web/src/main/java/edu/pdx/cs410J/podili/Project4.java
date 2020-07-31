@@ -158,12 +158,9 @@ public class Project4 {
                     searchFlag = 1;
                     options++;
                 } else if(args[i].equals("-host")) {
-                    //System.out.println("Inside host");
                     hostName = args[++i];
-                    //System.out.println(hostName);
                     options = options + 2;
                 } else if(args[i].equals("-port")) {
-                    //System.out.println("Inside port");
                     portNumber = args[++i];
                     options = options + 2;
                     try {
@@ -176,12 +173,9 @@ public class Project4 {
                 }
             }
         }
-        //System.out.println(hostName+"---"+port);
         PhoneBillRestClient client = new PhoneBillRestClient(hostName, port);
         if (args.length - options >= 1) {
             customer = args[options++];
-            //System.out.println(customer);
-            //System.out.println(args.length - options);
         }
         else {
             usage("Invalid command line arguments");
@@ -190,7 +184,6 @@ public class Project4 {
 
         try {
             if (args.length - options == 0) {
-                //System.out.println("Get info of the customer based on name");
                 try {
                     PhoneBill bill = client.getPhoneBill(customer);
                     //System.out.println("got bill" + bill);
@@ -255,6 +248,9 @@ public class Project4 {
                 checkDate(endTime);
                 compareDates(startTime, endTime);
                 client.addPhoneCall(customer, caller, callee, startTime, endTime);
+                if(printFlag == 1) {
+                    System.out.println("Phone call from "+caller+" to "+callee+" from "+startTime+" to "+endTime);
+                }
 
             } else {
                 System.err.println("Invalid command line arguments");
