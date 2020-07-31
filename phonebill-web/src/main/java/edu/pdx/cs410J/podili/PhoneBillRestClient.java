@@ -53,7 +53,8 @@ public class PhoneBillRestClient extends HttpRequestHelper
         Response response = get(this.url, Map.of(CUSTOMER_PARAMETER, customer, START_DATE,startTime,END_DATE, endTime));
         throwExceptionIfNotOkayHttpStatus(response);
         String content = response.getContent();
-        if(content.isEmpty()) {
+        //System.out.println(content);
+        if(content.length() < 20) {
             return null;
         }
         PhoneBillTextParser parser = new PhoneBillTextParser(new StringReader(content));

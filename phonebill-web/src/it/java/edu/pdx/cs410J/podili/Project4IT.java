@@ -119,4 +119,15 @@ public class Project4IT extends InvokeMainTestCase {
     }
 
 
+    @Test
+    public void noBillWithInRange() {
+        MainMethodResult result = invokeMain( Project4.class, "-host",HOSTNAME,"-port", PORT,"xyz","111-222-3333","222-333-4444","11/11/2011","11:00","AM",
+                "11/11/2011","11:30","AM");
+        MainMethodResult result2 = invokeMain( Project4.class, "-host",HOSTNAME,"-port", PORT,"-search","xyz","10/10/2008","10:00","AM","11/11/2009","10:00","AM" );
+        assertThat(result2.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));
+        String out = result2.getTextWrittenToStandardError();
+        assertThat(out, out, containsString("No call records found between the given dates"));
+    }
+
+
 }

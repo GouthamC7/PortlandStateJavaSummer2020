@@ -214,7 +214,7 @@ public class Project4 {
                     PhoneBill bill = client.getPhoneBillBetweenTime(customer, startTime, endTime);
                     //System.out.println("got bill" + bill);
                     if(bill == null) {
-                        System.out.println("No call records found between the given dates");
+                        System.err.println("No call records found between the given dates");
                         System.exit(1);
                     }
                     //System.out.println("pretty printing");
