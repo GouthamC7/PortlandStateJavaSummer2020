@@ -9,6 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ListActivity"></activity>
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".HelpActivity" />
+        <activity android:name=".AddCallActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
